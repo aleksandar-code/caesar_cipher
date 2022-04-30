@@ -61,6 +61,8 @@ end
 # the inputs are the string of letters and the key.
 # i have to pack key, array of numbers and wrap z to a 
 # a for loop that will -1 each time on the number
+
+# cipher key should only act on the characters, not on blank space, punctuation..
 def the_cipher (string)
     binding.pry
     key = ask_key
@@ -68,15 +70,20 @@ def the_cipher (string)
     x = string.length
     y = 0
     num2 = 0
-    while x > y do
-        num += convert_to_number_input(string)
+    letters = ""
+    # split the string into chars
+     string = string.split("")
+
+    string.each do |c|
+        num = convert_to_number_input(c)
         # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
         num2 = key_minus_num(num, key)
+        letters += num2.chr
         y += 1
     end
-
-   letter = num2.chr
-    return letter
+# join letters together back in like in the original string but ciphered
+   
+    return letters
 end
 #  now i have the input converted to number, i have to create a variable to hold the key
 binding.pry
