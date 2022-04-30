@@ -68,15 +68,15 @@ def the_cipher (string)
     x = string.length
     y = 0
     num2 = 0
-    while y < x do
+    while x > y do
         num += convert_to_number_input(string)
         # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
         num2 = key_minus_num(num, key)
-        x += 1
+        y += 1
     end
 
-    
-    return num2
+   letter = num2.chr
+    return letter
 end
 #  now i have the input converted to number, i have to create a variable to hold the key
 binding.pry
