@@ -1,7 +1,7 @@
 require 'pry-byebug'
 # create a method to handle wrap z to a & vice-versa lowercase and uppercase
 def wrap_z_to_a(num, lower_or_upper)
-    binding.pry
+    
     if lower_or_upper == "lower"
         if num > 122  # check for lowercase wrap z to a
             num = 97
@@ -22,42 +22,52 @@ def wrap_z_to_a(num, lower_or_upper)
 end
 # ask user to input his text
 def ask_user_input
-    
     print "What text you want me to cipher: "
     string = gets.chomp
     return string
 end
 # ask user for key 
 def ask_key
-    
     print "Give me the key for cipher: "
-    string = gets.chomp
+    int = gets.chomp.to_i
+    result = verify_key(int)
+    if result == "error"
+        return result
+    else
+        return int
+    end
     
-    return string
 end
+
+def verify_key(key)
+    if key > 0 && key <= 26
+        return key
+    else
+        puts "No negative or above 26 key"
+        return "error"
+    end
+    
+end
+
 # convert input to numbers character by character
 def convert_to_number_input (input)
-    
     to_convert_input = input
     input = to_convert_input.ord
-   
     return input
 end
 
-# operate the key and num
+# operate the key and num 
 def key_minus_num (num, key, lower_or_upper)
     
     
     
-    key = key.to_i
-    
     z = 0
    
     while key > z do   # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
-        num -= 1
+        
+        num += 1
         # wrap z to a 
         num = wrap_z_to_a(num, lower_or_upper)
-  
         z = z + 1
     end
     
@@ -79,6 +89,9 @@ end
 def the_cipher (string)
     lower_or_upper = ""
     key = ask_key
+    if key == "error"
+        return
+    end
     num = 0
     y = 0
     num2 = 0
