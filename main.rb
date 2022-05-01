@@ -1,35 +1,31 @@
 require 'pry-byebug'
 # create a method to handle wrap z to a & vice-versa lowercase and uppercase
-def wrap_z_to_a(num)
-    
-    if num == 91 # check for uppercase wrap z to a 
-        num = 65
-    elsif num == 64
-        num = 90
+def wrap_z_to_a(num, lower_or_upper)
+    binding.pry
+    if lower_or_upper == "lower"
+        if num > 122  # check for lowercase wrap z to a
+            num = 97
+        elsif num < 97
+            num = 122
+        end
     end
-    if num > 122 # check for lowercase wrap z to a
-        num = 97
-    elsif num < 97
-        num = 122
+    
+    if lower_or_upper == "upper"
+        if num > 90 # check for uppercase wrap z to a 
+            num = 65
+        elsif num < 65
+            num = 90
+        end
     end
     return num
+    
 end
-
 # ask user to input his text
 def ask_user_input
     
     print "What text you want me to cipher: "
     string = gets.chomp
     return string
-end
-# Ask user for input, i should convert it to numbers, lowercase/uppercase
-
-def convert_to_number_input (input)
-    
-    to_convert_input = input
-    input = to_convert_input.ord
-   
-    return input
 end
 # ask user for key 
 def ask_key
@@ -39,8 +35,17 @@ def ask_key
     
     return string
 end
+# convert input to numbers character by character
+def convert_to_number_input (input)
+    
+    to_convert_input = input
+    input = to_convert_input.ord
+   
+    return input
+end
 
-def key_minus_num (num, key)
+# operate the key and num
+def key_minus_num (num, key, lower_or_upper)
     
     
     
@@ -51,34 +56,43 @@ def key_minus_num (num, key)
     while key > z do   # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
         num -= 1
         # wrap z to a 
-        num = wrap_z_to_a(num)
+        num = wrap_z_to_a(num, lower_or_upper)
   
         z = z + 1
     end
     
     return num
 end
-# i have to create a method to use my inputs to be able to return an output.
-# the inputs are the string of letters and the key.
-# i have to pack key, array of numbers and wrap z to a 
-# a for loop that will -1 each time on the number
-
+# check if lower or uppercase
+def lower_or_upper_case (num)
+    result = ""
+    if num.chr == num.chr.downcase
+        result = "lower" 
+    elsif num.chr == num.chr.upcase
+        result = "upper"
+    end
+    
+    return result
+end
+    
 # cipher key should only act on the characters, not on blank space, punctuation..
 def the_cipher (string)
-    
+    lower_or_upper = ""
     key = ask_key
     num = 0
-    x = string.length
     y = 0
     num2 = 0
     letters = ""
     # split the string into chars
      string = string.split("")
 
-    string.each do |c|
-        num = convert_to_number_input(c)
+    string.each do |char|
+        
+        num = convert_to_number_input(char)
+        # check if lower or uppercase
+        lower_or_upper = lower_or_upper_case(num)
         # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
-        num2 = key_minus_num(num, key)
+        num2 = key_minus_num(num, key, lower_or_upper)
         letters += num2.chr
         y += 1
     end
@@ -88,8 +102,8 @@ def the_cipher (string)
 end
 #  now i have the input converted to number, i have to create a variable to hold the key
 
-converted_in_numbers = the_cipher(ask_user_input)
-puts converted_in_numbers
+final_text = the_cipher(ask_user_input)
+puts final_text
  
 
 
