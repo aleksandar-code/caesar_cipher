@@ -1,4 +1,3 @@
-require 'pry-byebug'
 # create a method to handle wrap z to a & vice-versa lowercase and uppercase
 def wrap_z_to_a(num, lower_or_upper)
     if lower_or_upper == "lower"
@@ -46,7 +45,6 @@ def ask_key
     else
         return int
     end
-    
 end
 
 def verify_key(key)
@@ -56,7 +54,6 @@ def verify_key(key)
         puts "No negative or above 26 key"
         return "error"
     end
-    
 end
 
 # convert input to numbers character by character
@@ -67,7 +64,7 @@ def convert_to_number_input (input)
 end
 
 # operate the key and num 
-def key_minus_num (num, key, lower_or_upper, response)
+def key_plus_num (num, key, lower_or_upper, response)
     z = 0
 
     if response != "letter"
@@ -86,57 +83,57 @@ def key_minus_num (num, key, lower_or_upper, response)
 end
 
 def check_if_letter(num, lower_case_array, upper_case_array)
-    
     if lower_case_array.any?(num)
         return resposne = "letter"
     elsif upper_case_array.any?(num)
         return response = "letter"
     end
-
     return num
 end
 
     
 # cipher key should only act on the characters, not on blank space, punctuation..
 def the_cipher (string, lower_case_array, upper_case_array)
-    lower_or_upper = ""
     key = ask_key
-    if key == "error"
-        return
-    end
+    lower_or_upper = ""
+    letters = ""
+    response = ""
     num = 0
     y = 0
     num2 = 0
-    letters = ""
-    response = ""
     # split the string 
-     string = string.split("")
+    string = string.split("")
+    if key == "error"
+        return
+    end
 
     string.each do |char|
         
-
+        # convert to number ascii
         num = convert_to_number_input(char)
         # check if lower or uppercase
         lower_or_upper = lower_or_upper_case(num)
+        # ask if the character is a letter, if not then it will not be modified.
         response = check_if_letter(num, lower_case_array, upper_case_array)
         
-        # will add key minus each number and use wrap z to a at each iteration (each time we do minus to a num)
-        num2 = key_minus_num(num, key, lower_or_upper, response)
+        # will add key minus each number and use wrap z to a at each iteration (each time we do plus to a num)
+        num2 = key_plus_num(num, key, lower_or_upper, response)
+        # join letters together back in like in the original string but ciphered
         letters += num2.chr
         y += 1
     end
-    # join letters together back in like in the original string but ciphered
+    
    
     return letters
 end
-#  now i have the input converted to number, i have to create a variable to hold the key
 
+# Arrays
 lower_case_array = (97..122).to_a
 upper_case_array = (65..90).to_a
 
 
 
-
+# output the final text
 final_text = the_cipher(ask_user_input, lower_case_array, upper_case_array)
 puts final_text
  
