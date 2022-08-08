@@ -7,7 +7,7 @@ class Caesar
         idx = (alphabet.find_index(char.downcase) + shift) % 26
         char = char == char.upcase ? alphabet[idx].upcase : alphabet[idx]
       end
-        result += char
+      result += char
     end
     result
   end
